@@ -38,7 +38,20 @@ Explain how to use the project and provide examples if needed.
 
 ## Contributing
 
-Explain how others can contribute to your project.
+We welcome contributions! If you would like to contribute to this project, please follow these guidelines:
+
+1. Fork the repository.
+2. Clone the forked repository.
+3. Create a new branch for your feature: `git checkout -b feature-name`
+4. Make your changes and commit them: `git commit -m 'Add some feature'`
+5. Push to the branch: `git push origin feature-name`
+6. Submit a pull request.
+
+Contributions from:
+
+- [salahakrim](https://github.com/salahakrim)
+- [issam-sbai](https://github.com/issam-sbai)
+- [RedaBelourhzal](https://github.com/RedaBelourhzal)
 
 ## License
 
