@@ -39,6 +39,9 @@ public class Developer extends User {
     private List<DevSocialNetwork> devsocialNetworks;
 
 
+    @OneToMany(mappedBy = "developer")
+    private List<RendezVous> rdvs;
+
 
 
 }
