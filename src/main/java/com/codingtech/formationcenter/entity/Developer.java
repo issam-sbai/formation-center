@@ -39,5 +39,4 @@ public class Developer extends User {
     private List<SocialNetwork> socialNetworks;
 
 
-
 }
