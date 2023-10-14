@@ -1,6 +1,7 @@
 package com.codingtech.formationcenter.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,16 +28,16 @@ public class Developer extends User {
     @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL)
     private List<Project> projects;
 
-    @ManyToMany
-    @JoinTable(
-            name = "developer_skill",
-            joinColumns = @JoinColumn(name = "developer_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
-    private List<Skill> skills;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "developer")
+    private List<NiveauOfSkillDeveloper> niveauOfSkillDevelopers;
+
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL)
-    private List<SocialNetwork> socialNetworks;
+    private List<DevSocialNetwork> devsocialNetworks;
+
 
 
 }

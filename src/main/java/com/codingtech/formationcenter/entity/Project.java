@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,6 +21,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String projectName;
+    private String urlProject;
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
     private Date startDate;
@@ -29,6 +33,9 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "developer_id")
     private Developer developer;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
 
     // constructors, getters, and setters
 }

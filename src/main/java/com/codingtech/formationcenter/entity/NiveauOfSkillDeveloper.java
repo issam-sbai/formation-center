@@ -1,6 +1,6 @@
 package com.codingtech.formationcenter.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,16 +14,19 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Skill {
+public class NiveauOfSkillDeveloper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String skillName;
+    private String niveauOfSkillDeveloper ;
 
-    @OneToMany(mappedBy = "skill")
-    @JsonManagedReference
-    private List<NiveauOfSkillDeveloper> niveauOfSkillDevelopers;
+    @ManyToOne
+    @JoinColumn(name = "developer_id")
+    @JsonBackReference
+    private Developer developer;
 
-
-    // constructors, getters, and setters
+    @ManyToOne
+    @JoinColumn(name = "skill_id")
+    @JsonBackReference
+    private Skill skill;
 }
