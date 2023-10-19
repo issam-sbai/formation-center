@@ -1,12 +1,13 @@
 package com.codingtech.formationcenter.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Data
 @Builder
@@ -19,7 +20,5 @@ public class SocialNetwork {
     private Long id;
     private String networkName;
     private String urlNetwork;
-    @ManyToOne
-    @JoinColumn(name = "developer_id")
-    private Developer developer;
+
 }

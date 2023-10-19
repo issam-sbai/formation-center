@@ -1,6 +1,7 @@
 package com.codingtech.formationcenter.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +23,10 @@ public class NiveauOfSkillDeveloper {
 
     @ManyToOne
     @JoinColumn(name = "developer_id")
-    @JsonBackReference
+    @JsonBackReference(value = "niveauOfSkillReference")
     private Developer developer;
 
     @ManyToOne
     @JoinColumn(name = "skill_id")
-    @JsonBackReference
     private Skill skill;
 }

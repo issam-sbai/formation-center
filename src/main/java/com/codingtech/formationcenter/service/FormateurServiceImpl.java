@@ -24,7 +24,7 @@ public class FormateurServiceImpl implements FormateurService {
     }
 
     @Override
-    public Formateur getFormateurById(Long id) {
+    public Formateur getFormateurById(int id) {
         Optional<Formateur> formateurOptional = formateurRepo.findById(id);
         return formateurOptional.orElse(null);
     }
@@ -35,7 +35,7 @@ public class FormateurServiceImpl implements FormateurService {
     }
 
     @Override
-    public Formateur updateFormateur(Long id, Formateur formateur) {
+    public Formateur updateFormateur(int id, Formateur formateur) {
         Optional<Formateur> existingFormateurOptional = formateurRepo.findById(id);
 
         if (existingFormateurOptional.isPresent()) {
@@ -50,7 +50,7 @@ public class FormateurServiceImpl implements FormateurService {
     }
 
     @Override
-    public void deleteFormateur(Long id) {
+    public void deleteFormateur(int id) {
         formateurRepo.deleteById(id);
     }
 }

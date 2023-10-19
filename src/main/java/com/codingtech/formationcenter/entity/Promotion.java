@@ -1,6 +1,10 @@
 package com.codingtech.formationcenter.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,16 +23,29 @@ public class Promotion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nom;
     private Date date_dube;
     private Date date_fin;
 
-    @ManyToMany(mappedBy = "promotions")
+    @ManyToMany
+    @JoinTable(
+            name = "promotion_formateur",
+            joinColumns = @JoinColumn(name = "promotion_id"),
+            inverseJoinColumns = @JoinColumn(name = "formateur_id")
+    )
     private List<Formateur> formateurs;
 
-    @OneToMany(mappedBy = "promotion")
-    private List<Module> modules;
+    @ManyToMany
+    @JoinTable(
+            name = "promotion_developers",
+            joinColumns = @JoinColumn(name = "promotion_id"),
+            inverseJoinColumns = @JoinColumn(name = "developers_id")
+    )
+    @JsonIgnoreProperties({"experiences","niveauOfSkillDevelopers","devsocialNetworks"})
+    private List<Developer> developers;
+
+
 
 
 

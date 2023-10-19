@@ -1,6 +1,9 @@
 package com.codingtech.formationcenter.controller;
 
+import com.codingtech.formationcenter.entity.Formateur;
 import com.codingtech.formationcenter.entity.Module;
+import com.codingtech.formationcenter.entity.Promotion;
+import com.codingtech.formationcenter.service.FormateurService;
 import com.codingtech.formationcenter.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +17,13 @@ import java.util.List;
 public class ModuleController {
 
     private final ModuleService moduleService;
+    private final FormateurService formateurService;
+
 
     @Autowired
-    public ModuleController(ModuleService moduleService) {
+    public ModuleController(ModuleService moduleService, FormateurService formateurService) {
         this.moduleService = moduleService;
+        this.formateurService = formateurService;
     }
 
     @GetMapping
@@ -56,5 +62,15 @@ public class ModuleController {
     public ResponseEntity<Void> deleteModule(@PathVariable Long id) {
         moduleService.deleteModule(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping ("/{id}/assign-formateur")
+    public Module assignFormateurToFormation(
+            @PathVariable Long id,
+            @RequestBody Formateur id_formateur
+    ) {
+        System.out.println(id_formateur);
+        Formateur formateur =formateurService.getFormateurById(id_formateur.getId());
+        return moduleService.assignFormateurToPromotion(id, formateur);
     }
 }

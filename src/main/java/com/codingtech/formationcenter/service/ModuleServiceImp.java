@@ -1,5 +1,6 @@
 package com.codingtech.formationcenter.service;
 
+import com.codingtech.formationcenter.entity.Formateur;
 import com.codingtech.formationcenter.entity.Module;
 import com.codingtech.formationcenter.repo.ModuleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,19 @@ public class ModuleServiceImp implements ModuleService {
     @Override
     public void deleteModule(Long id) {
         moduleRepo.deleteById(id);
+    }
+
+
+    @Override
+    public Module assignFormateurToPromotion(Long formationId, Formateur formateur) {
+        // Implement the logic to assign a formateur to a formation
+        Module promotion = null;
+        Optional<Module> optionalFormation = moduleRepo.findById(formationId);
+        if (optionalFormation.isPresent()) {
+            promotion = optionalFormation.get();
+            promotion.setFormateur(formateur);
+            return moduleRepo.save(promotion);
+        }
+        return promotion;
     }
 }

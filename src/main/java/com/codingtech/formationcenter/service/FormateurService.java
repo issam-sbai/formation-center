@@ -8,11 +8,11 @@ public interface FormateurService {
 
     List<Formateur> getAllFormateurs();
 
-    Formateur getFormateurById(Long id);
+    Formateur getFormateurById(int id);
 
     Formateur createFormateur(Formateur formateur);
 
-    Formateur updateFormateur(Long id, Formateur formateur);
+    Formateur updateFormateur(int id, Formateur formateur);
 
-    void deleteFormateur(Long id);
+    void deleteFormateur(int id);
 }

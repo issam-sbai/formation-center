@@ -1,6 +1,7 @@
 package com.codingtech.formationcenter.entity;
 
 
+import com.codingtech.formationcenter.security.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

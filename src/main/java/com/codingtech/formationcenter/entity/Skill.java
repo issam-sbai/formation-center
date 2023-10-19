@@ -1,6 +1,6 @@
 package com.codingtech.formationcenter.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,11 +19,6 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String skillName;
-
-    @OneToMany(mappedBy = "skill")
-    @JsonManagedReference
-    private List<NiveauOfSkillDeveloper> niveauOfSkillDevelopers;
-
 
     // constructors, getters, and setters
 }

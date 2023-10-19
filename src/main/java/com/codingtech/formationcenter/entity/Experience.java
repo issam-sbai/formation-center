@@ -1,5 +1,6 @@
 package com.codingtech.formationcenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class Experience {
 
     @ManyToOne
     @JoinColumn(name = "developer_id")
+    @JsonBackReference
     private Developer developer;
 
     // constructors, getters, and setters

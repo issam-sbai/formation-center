@@ -1,6 +1,7 @@
 package com.codingtech.formationcenter.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,12 +21,12 @@ public class DevSocialNetwork {
     private String urlSocialNetwork ;
 
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "developer_id")
+    @JsonBackReference(value = "devsocialNetworks")
     private Developer developer;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "socialNetwork_id")
     private SocialNetwork socialNetwork;

@@ -27,7 +27,7 @@ public class FormateurController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Formateur> getFormateurById(@PathVariable Long id) {
+    public ResponseEntity<Formateur> getFormateurById(@PathVariable int id) {
         Formateur formateur = formateurService.getFormateurById(id);
         if (formateur != null) {
             return new ResponseEntity<>(formateur, HttpStatus.OK);
@@ -43,7 +43,7 @@ public class FormateurController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Formateur> updateFormateur(@PathVariable Long id, @RequestBody Formateur formateur) {
+    public ResponseEntity<Formateur> updateFormateur(@PathVariable int id, @RequestBody Formateur formateur) {
         Formateur updatedFormateur = formateurService.updateFormateur(id, formateur);
         if (updatedFormateur != null) {
             return new ResponseEntity<>(updatedFormateur, HttpStatus.OK);
@@ -53,7 +53,7 @@ public class FormateurController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFormateur(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFormateur(@PathVariable int id) {
         formateurService.deleteFormateur(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
