@@ -1,6 +1,8 @@
 package com.codingtech.formationcenter.controller;
 
 import com.codingtech.formationcenter.entity.Developer;
+import com.codingtech.formationcenter.entity.Experience;
+import com.codingtech.formationcenter.entity.Promotion;
 import com.codingtech.formationcenter.service.DeveloperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class DeveloperController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Developer> getDeveloperById(@PathVariable Long id) {
+    public ResponseEntity<Developer> getDeveloperById(@PathVariable int id) {
         Developer developer = developerService.getDeveloperById(id);
         if (developer != null) {
             return new ResponseEntity<>(developer, HttpStatus.OK);
@@ -36,14 +38,13 @@ public class DeveloperController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Developer> createDeveloper(@RequestBody Developer developer) {
-        Developer createdDeveloper = developerService.createDeveloper(developer);
-        return new ResponseEntity<>(createdDeveloper, HttpStatus.CREATED);
+    @PostMapping("/add")
+    public Developer saveParticipant(@RequestBody Developer developer) {
+        return developerService.createDeveloper(developer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Developer> updateDeveloper(@PathVariable Long id, @RequestBody Developer developer) {
+    public ResponseEntity<Developer> updateDeveloper(@PathVariable int id, @RequestBody Developer developer) {
         Developer updatedDeveloper = developerService.updateDeveloper(id, developer);
         if (updatedDeveloper != null) {
             return new ResponseEntity<>(updatedDeveloper, HttpStatus.OK);
@@ -53,8 +54,23 @@ public class DeveloperController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDeveloper(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDeveloper(@PathVariable int id) {
         developerService.deleteDeveloper(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}/experiences")
+    public ResponseEntity<String> addexperiencesTodev(
+            @PathVariable int id,
+            @RequestBody Experience experience) {
+        System.out.println("ok"+ id);
+        String updatedFormation = developerService.addexpEriencesToDeveloper(id, experience);
+
+        if (updatedFormation != null) {
+
+            return ResponseEntity.ok(updatedFormation);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

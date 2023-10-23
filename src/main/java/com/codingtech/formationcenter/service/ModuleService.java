@@ -1,5 +1,6 @@
 package com.codingtech.formationcenter.service;
 
+import com.codingtech.formationcenter.entity.Formateur;
 import com.codingtech.formationcenter.entity.Module;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface ModuleService {
     Module updateModule(Long id, Module module);
 
     void deleteModule(Long id);
+
+    Module assignFormateurToPromotion(Long formationId, Formateur formateur);
 }
