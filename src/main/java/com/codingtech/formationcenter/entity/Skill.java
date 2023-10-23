@@ -1,6 +1,8 @@
 package com.codingtech.formationcenter.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,5 +22,8 @@ public class Skill {
     private Long id;
     private String skillName;
 
+    @OneToMany(mappedBy = "skill")
+    @JsonIgnore
+    private List<NiveauOfSkillDeveloper> niveauOfSkillDevelopers;
     // constructors, getters, and setters
 }

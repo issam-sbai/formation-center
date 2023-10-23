@@ -32,6 +32,7 @@ public class Developer extends User {
     @OneToMany(mappedBy = "developer")
     private List<RendezVous> rdvs;
 
+    @JsonManagedReference(value = "projects")
     @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL)
     private List<Project> projects;
 

@@ -1,5 +1,7 @@
 package com.codingtech.formationcenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +34,11 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "developer_id")
+    @JsonBackReference(value = "projects")
     private Developer developer;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "images" )
     private List<Image> images = new ArrayList<>();
 
     // constructors, getters, and setters

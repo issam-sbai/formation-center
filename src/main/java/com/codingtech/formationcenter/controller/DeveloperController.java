@@ -1,9 +1,9 @@
 package com.codingtech.formationcenter.controller;
 
-import com.codingtech.formationcenter.entity.Developer;
-import com.codingtech.formationcenter.entity.Experience;
-import com.codingtech.formationcenter.entity.Promotion;
-import com.codingtech.formationcenter.service.DeveloperService;
+import com.codingtech.formationcenter.dto.DevSocialnetworkDto;
+import com.codingtech.formationcenter.dto.NiveauOfSkillRequest;
+import com.codingtech.formationcenter.entity.*;
+import com.codingtech.formationcenter.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,17 @@ import java.util.List;
 public class DeveloperController {
 
     private final DeveloperService developerService;
-
+    private final SkillService skillService;
+    private final SocialNetworkService socialNetworkService;
+    private final DevSocialNetworkService devSocialNetwork;
+    private final NiveauOfSkillDeveloperService niveauOfSkillDeveloperService;
     @Autowired
-    public DeveloperController(DeveloperService developerService) {
+    public DeveloperController(DeveloperService developerService, SkillService skillService, SocialNetworkService socialNetworkService, DevSocialNetworkService devSocialNetwork, NiveauOfSkillDeveloperService niveauOfSkillDeveloperService) {
         this.developerService = developerService;
+        this.skillService = skillService;
+        this.socialNetworkService = socialNetworkService;
+        this.devSocialNetwork = devSocialNetwork;
+        this.niveauOfSkillDeveloperService = niveauOfSkillDeveloperService;
     }
 
     @GetMapping
@@ -73,4 +80,30 @@ public class DeveloperController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/{developerId}/updateNiveauOfSkill")
+    public ResponseEntity<String> updateNiveauOfSkill(
+            @PathVariable int developerId,
+            @RequestBody NiveauOfSkillRequest niveauOfSkillRequest) {
+
+        // Save the changes to the database
+        developerService.updateDeveloperSkill(niveauOfSkillRequest,developerId);
+
+        return ResponseEntity.ok("NiveauOfSkillDeveloper updated successfully");
+    }
+
+    @GetMapping("skill/{skillName}")
+    public List<Developer> getDevelopersBySkill(@PathVariable String skillName) {
+        return skillService.getDevelopersBySkill(skillName);
+    }
+
+    @PutMapping("/{developerId}/updatenetwork")
+    public ResponseEntity<String> updatesocialnetwork(
+            @PathVariable int developerId,
+            @RequestBody DevSocialnetworkDto devSocialnetworkDto) {
+            developerService.updateDeveloperNetwork(devSocialnetworkDto,developerId);
+        return ResponseEntity.ok("social network updated successfully");
+    }
+
+
 }

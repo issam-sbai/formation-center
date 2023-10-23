@@ -1,12 +1,11 @@
 package com.codingtech.formationcenter.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Data
@@ -14,6 +13,8 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class SocialNetwork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +22,8 @@ public class SocialNetwork {
     private String networkName;
     private String urlNetwork;
 
+
+    @OneToMany(mappedBy = "socialNetwork")
+    @JsonIgnore
+    private List<DevSocialNetwork> devSocialNetworks;
 }

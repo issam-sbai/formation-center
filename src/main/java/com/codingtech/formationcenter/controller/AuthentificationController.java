@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:5174")
 public class AuthentificationController {
 
 
@@ -44,12 +44,11 @@ public class AuthentificationController {
 		return "Bonjour";
 	}*/
 
-    @RequestMapping(value="/loginUserJwt" ,method =RequestMethod.POST)
+    @RequestMapping(value="/login" ,method =RequestMethod.POST)
     public AuthentificationResponse authenticate(@RequestBody AuthentificationRequest authentificationRequest) throws Exception
     {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authentificationRequest.getUsername(), authentificationRequest.getPassword()));
-
         } catch (BadCredentialsException e) {
             // TODO: handle exception
             throw new Exception("incorrect username ou password",e);
@@ -57,10 +56,10 @@ public class AuthentificationController {
 
         final UserDetails userdetails=custemUserDetailsService.loadUserByUsername(authentificationRequest.getUsername());
         final String jwt=jwtokenUtil.generateToken(userdetails);
-
-
-        return new AuthentificationResponse(jwt);
+        return new AuthentificationResponse(jwt, userdetails);
     }
+
+
 
 
 

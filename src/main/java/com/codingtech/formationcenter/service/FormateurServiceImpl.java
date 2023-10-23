@@ -2,9 +2,12 @@ package com.codingtech.formationcenter.service;
 
 import com.codingtech.formationcenter.entity.Formateur;
 import com.codingtech.formationcenter.repo.FormateurRepo;
+import com.codingtech.formationcenter.security.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,8 @@ public class FormateurServiceImpl implements FormateurService {
         this.formateurRepo = formateurRepo;
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public List<Formateur> getAllFormateurs() {
         return formateurRepo.findAll();
@@ -31,6 +36,11 @@ public class FormateurServiceImpl implements FormateurService {
 
     @Override
     public Formateur createFormateur(Formateur formateur) {
+        String hashedPassword = passwordEncoder.encode(formateur.getPassword());
+        List<Role> roles=new ArrayList<>();
+        roles.add(new Role(1,"FORMATEUR"));
+        formateur.setPassword(hashedPassword);
+        formateur.setRoles(roles);
         return formateurRepo.save(formateur);
     }
 
