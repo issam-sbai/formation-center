@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/experiences")
+@CrossOrigin("http://localhost:5174")
 public class ExperienceController {
     private final ExperienceService experienceService;
     @Autowired
@@ -34,7 +35,7 @@ public class ExperienceController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Experience> createExperience(@RequestBody Experience experience) {
         Experience createdExperience = experienceService.createExperience(experience);
         return new ResponseEntity<>(createdExperience, HttpStatus.CREATED);

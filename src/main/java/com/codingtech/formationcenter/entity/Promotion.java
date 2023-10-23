@@ -27,6 +27,7 @@ public class Promotion {
     private String nom;
     private Date date_dube;
     private Date date_fin;
+    private String status;
 
     @ManyToMany
     @JoinTable(
@@ -45,6 +46,8 @@ public class Promotion {
     @JsonIgnoreProperties({"experiences","niveauOfSkillDevelopers","devsocialNetworks"})
     private List<Developer> developers;
 
+    @Transient
+    private int nbrDeveloper;
 
 
 

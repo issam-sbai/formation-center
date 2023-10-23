@@ -21,7 +21,13 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public List<Promotion> getAllPromotions() {
-        return promotionRepository.findAll();
+        List<Promotion> promotions = promotionRepository.findAll();
+        promotions.forEach(promotion->{
+            int nbrD = promotion.getDevelopers().size();
+            promotion.setNbrDeveloper(nbrD);
+        });
+
+        return promotions;
     }
 
     @Override

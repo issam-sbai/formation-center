@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/modules")
+@CrossOrigin("http://localhost:5174")
 public class ModuleController {
 
     private final ModuleService moduleService;
@@ -42,7 +43,7 @@ public class ModuleController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Module> createModule(@RequestBody Module module) {
         Module createdModule = moduleService.createModule(module);
         return new ResponseEntity<>(createdModule, HttpStatus.CREATED);

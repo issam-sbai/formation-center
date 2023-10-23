@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/developers")
+@CrossOrigin("http://localhost:5174")
 public class DeveloperController {
 
     private final DeveloperService developerService;

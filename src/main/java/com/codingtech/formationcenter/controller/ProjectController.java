@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/projects")
+@CrossOrigin("http://localhost:5174")
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -36,7 +37,7 @@ public class ProjectController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Project> createProject(@RequestBody Project project) {
         Project createdProject = projectService.createProject(project);
         return new ResponseEntity<>(createdProject, HttpStatus.CREATED);

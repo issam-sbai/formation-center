@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/formateurs")
+@CrossOrigin("http://localhost:5174")
 public class FormateurController {
 
     private final FormateurService formateurService;
@@ -36,7 +37,7 @@ public class FormateurController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Formateur> createFormateur(@RequestBody Formateur formateur) {
         Formateur createdFormateur = formateurService.createFormateur(formateur);
         return new ResponseEntity<>(createdFormateur, HttpStatus.CREATED);

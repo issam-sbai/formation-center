@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/promotions")
+@CrossOrigin("http://localhost:5174")
 public class PromotionController {
 
     private final PromotionService promotionService;
@@ -42,7 +43,7 @@ public class PromotionController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Promotion> createPromotion(@RequestBody Promotion promotion) {
         Promotion createdPromotion = promotionService.createPromotion(promotion);
         return new ResponseEntity<>(createdPromotion, HttpStatus.CREATED);
@@ -70,10 +71,7 @@ public class PromotionController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
-
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePromotion(@PathVariable Long id) {
         promotionService.deletePromotion(id);

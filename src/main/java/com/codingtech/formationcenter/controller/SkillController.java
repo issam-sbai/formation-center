@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/skills")
+@CrossOrigin("http://localhost:5174")
 public class SkillController {
 
     private final SkillService skillService;
@@ -25,7 +26,7 @@ public class SkillController {
     @Autowired
     private DeveloperService developerService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
         Skill createdSkill = skillService.createSkill(skill);
         return new ResponseEntity<>(createdSkill, HttpStatus.CREATED);

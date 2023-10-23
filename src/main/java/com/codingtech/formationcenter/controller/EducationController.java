@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/educations")
+@CrossOrigin("http://localhost:5174")
 public class EducationController {
 
     private final EducationService educationService;
@@ -36,7 +37,7 @@ public class EducationController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Education> createEducation(@RequestBody Education education) {
         Education createdEducation = educationService.createEducation(education);
         return new ResponseEntity<>(createdEducation, HttpStatus.CREATED);
