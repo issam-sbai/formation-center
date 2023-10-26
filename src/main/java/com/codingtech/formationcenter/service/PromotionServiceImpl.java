@@ -6,6 +6,7 @@ import com.codingtech.formationcenter.repo.PromotionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,38 @@ public class PromotionServiceImpl implements PromotionService {
         });
 
         return promotions;
+    }
+
+    @Override
+    public Promotion updatePromotion(Long id, Promotion updatedPromotion) {
+        Promotion existingPromotion = getPromotionById(id);
+
+        if (existingPromotion != null) {
+            // Update the existing promotion with the data from updatedPromotion
+            existingPromotion.setNom(updatedPromotion.getNom());
+            existingPromotion.setDate_dube(updatedPromotion.getDate_dube());
+            existingPromotion.setDate_fin(updatedPromotion.getDate_fin());
+            existingPromotion.setStatus(updatedPromotion.getStatus());
+
+            if (updatedPromotion.getFormateurs() != null) {
+                List<Formateur> newFormateurs = updatedPromotion.getFormateurs();
+
+                // Check if each new formateur exists in the existing promotion, and if not, add them
+                for (Formateur newFormateur : newFormateurs) {
+                    if (!existingPromotion.getFormateurs().contains(newFormateur)) {
+                        existingPromotion.getFormateurs().add(newFormateur);
+
+
+                    }
+                }
+            }
+
+            // Save the updated promotion
+            return promotionRepository.save(existingPromotion);
+        } else {
+            // Handle the case where the promotion doesn't exist
+            return null;
+        }
     }
 
     @Override
@@ -63,6 +96,7 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public Promotion addParticipantsToFormation(Long promotionId, List<Developer> developers) {
+
         Optional<Promotion> optFormation = promotionRepository.findById(promotionId);
 
         if (optFormation.isPresent()) {
@@ -70,11 +104,23 @@ public class PromotionServiceImpl implements PromotionService {
             developers.forEach(p -> promotion.getDevelopers().add(p));
             return promotionRepository.save(promotion);
         } else {
-            // Handle the case where Promotion is not found
+
             System.out.println("Promotion with id " + promotionId + " not found");
             // You can return null or handle it differently based on your application logic
             return null;
         }
+    }
+
+
+    @Transactional
+    @Override
+    public Promotion updateFormation(Promotion promotion) {
+        // Use the Spring Data JPA repository to save or update the promotion
+        Promotion updatedPromotion = promotionRepository.save(promotion);
+
+        // Additional business logic can be added here if needed
+
+        return updatedPromotion;
     }
 
 

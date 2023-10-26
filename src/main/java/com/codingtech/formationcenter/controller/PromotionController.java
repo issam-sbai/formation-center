@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/promotions")
-@CrossOrigin("http://localhost:5174")
+@CrossOrigin(origins = {"http://localhost:5174", "http://localhost:5173"})
 public class PromotionController {
 
     private final PromotionService promotionService;
@@ -71,7 +71,22 @@ public class PromotionController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Promotion> updatePromotion(@PathVariable Long id, @RequestBody Promotion updatedPromotion) {
+        Promotion existingPromotion = promotionService.getPromotionById(id);
+
+        if (existingPromotion != null) {
+            // You may want to implement a method in your service to update the promotion.
+            // Here, we assume you have an updatePromotion method in your service.
+            Promotion updated = promotionService.updatePromotion(id, updatedPromotion);
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePromotion(@PathVariable Long id) {
         promotionService.deletePromotion(id);

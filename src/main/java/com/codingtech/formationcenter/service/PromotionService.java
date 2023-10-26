@@ -5,6 +5,7 @@ import com.codingtech.formationcenter.entity.Developer;
 import com.codingtech.formationcenter.entity.Formateur;
 import com.codingtech.formationcenter.entity.Promotion;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +14,17 @@ public interface PromotionService {
 
     Promotion getPromotionById(Long id);
 
-    Promotion createPromotion(Promotion project);
-
+    Promotion createPromotion(Promotion promotion);
 
     void deletePromotion(Long id);
 
     Promotion assignFormateurToPromotion(Long id, Formateur formateur);
 
     Promotion addParticipantsToFormation(Long formationId, List<Developer> developers);
+
+    Promotion updatePromotion(Long id, Promotion updatedPromotion);
+
+    @Transactional
+    Promotion updateFormation(Promotion promotion);
 }
+

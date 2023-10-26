@@ -29,9 +29,32 @@ public class User {
 	private String password;
 	private Date dateNaissance;
 	private String telephone;
+	private String image;
 
+	public Date getDateNaissance() {
+		return dateNaissance;
+	}
 
-	
+	public void setDateNaissance(Date dateNaissance) {
+		this.dateNaissance = dateNaissance;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		    name = "user_role",

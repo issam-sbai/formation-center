@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/experiences")
-@CrossOrigin("http://localhost:5174")
+@CrossOrigin(origins = {"http://localhost:5174", "http://localhost:5173"})
 public class ExperienceController {
     private final ExperienceService experienceService;
     @Autowired

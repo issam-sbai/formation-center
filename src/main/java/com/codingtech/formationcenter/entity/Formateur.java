@@ -11,8 +11,11 @@ import java.util.List;
 @Data
 public class Formateur extends User {
 
-    public Formateur(int id, String nom, String prenom, String username, String password, Date dateNaissance, String telephone, List<Role> roles) {
-        super(id, nom, prenom, username, password, dateNaissance, telephone, roles);
+
+
+
+    public Formateur(int id, String nom, String prenom, String username, String password, Date dateNaissance, String telephone, String image, List<Role> roles) {
+        super(id, nom, prenom, username, password, dateNaissance, telephone, image, roles);
     }
 
     public Formateur() {

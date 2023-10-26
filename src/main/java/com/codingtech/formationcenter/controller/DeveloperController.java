@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/developers")
-@CrossOrigin("http://localhost:5174")
+@CrossOrigin(origins = {"http://localhost:5174", "http://localhost:5173"})
 public class DeveloperController {
 
     private final DeveloperService developerService;
