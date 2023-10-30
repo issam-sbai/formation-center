@@ -49,14 +49,23 @@ public class DeveloperServiceImp implements DeveloperService {
 
     @Override
     public Developer createDeveloper(Developer developer) {
+        // Check if the username already exists in the database
+        if (developerRepository.findByUsername(developer.getUsername()) != null) {
+            // You can handle the case where the username already exists, for example, by throwing an exception or returning an error message.
+            throw new RuntimeException("Username is already in use");
+        }
+
         // You may add additional validation or business logic before saving
         String hashedPassword = passwordEncoder.encode(developer.getPassword());
-        List<Role> roles=new ArrayList<>();
-        roles.add(new Role(2,"DEVELOPER"));
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role(2, "DEVELOPER"));
         developer.setRoles(roles);
         developer.setPassword(hashedPassword);
+
+        // Save the new developer if the username is not in use
         return developerRepository.save(developer);
     }
+
 
     @Override
     public Developer updateDeveloper(int id, Developer developer) {

@@ -43,6 +43,7 @@ public class ModuleServiceImp implements ModuleService {
             Module existingModule = existingModuleOptional.get();
             // Update the existing module with the new values
             existingModule.setModuleName(module.getModuleName());
+            existingModule.setFormateur(module.getFormateur());
             // Update other properties as needed
 
             return moduleRepo.save(existingModule);

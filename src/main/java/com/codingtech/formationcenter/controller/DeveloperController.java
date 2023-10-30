@@ -47,8 +47,14 @@ public class DeveloperController {
     }
 
     @PostMapping("/add")
-    public Developer saveParticipant(@RequestBody Developer developer) {
-        return developerService.createDeveloper(developer);
+    public ResponseEntity<String> createDeveloper(@RequestBody Developer developer) {
+        try {
+            Developer createdDeveloper = developerService.createDeveloper(developer);
+            return ResponseEntity.ok("Developer created successfully");
+        } catch (RuntimeException e) {
+            // Handle the case where a runtime exception occurs, including the case where the username already exists
+            return ResponseEntity.badRequest().body("An error occurred: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")

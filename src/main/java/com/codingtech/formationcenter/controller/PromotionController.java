@@ -59,16 +59,16 @@ public class PromotionController {
         return promotionService.assignFormateurToPromotion(id, formateur);
     }
 
-    @PutMapping("/{formationId}/participants")
-    public ResponseEntity<Promotion> addParticipantsToFormation(
-            @PathVariable Long formationId,
-            @RequestBody List<Developer> participants) {
-        Promotion updatedFormation = promotionService.addParticipantsToFormation(formationId, participants);
+    @PutMapping("/{promotionId}/participants")
+    public ResponseEntity<String> addParticipantsToPromotion(
+            @PathVariable Long promotionId,
+            @RequestBody List<Developer> developers) {
+        ResponseEntity<String> response = promotionService.addListParticipantsToFormation(promotionId, developers);
 
-        if (updatedFormation != null) {
-            return ResponseEntity.ok(updatedFormation);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return ResponseEntity.ok(response.getBody());
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
         }
     }
 

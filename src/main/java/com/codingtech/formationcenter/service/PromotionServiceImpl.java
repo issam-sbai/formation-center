@@ -4,6 +4,7 @@ import com.codingtech.formationcenter.entity.Formateur;
 import com.codingtech.formationcenter.entity.Promotion;
 import com.codingtech.formationcenter.repo.PromotionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -83,33 +84,96 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public Promotion assignFormateurToPromotion(Long formationId, Formateur formateur) {
-        // Implement the logic to assign a formateur to a formation
         Promotion promotion = null;
         Optional<Promotion> optionalFormation = promotionRepository.findById(formationId);
+
         if (optionalFormation.isPresent()) {
             promotion = optionalFormation.get();
-            promotion.getFormateurs().add(formateur);
-            return promotionRepository.save(promotion);
+
+            // Check if the formateur already exists in the list of formateurs by comparing their IDs
+            boolean formateurExists = false;
+            int formateurId = formateur.getId();
+            for (Formateur existingFormateur : promotion.getFormateurs()) {
+
+                int formateurPromotionId =  existingFormateur.getId();
+                if (formateurPromotionId == formateurId) {
+                    formateurExists = true;
+                    break;
+                }
+            }
+            if (!formateurExists) {
+                promotion.getFormateurs().add(formateur);
+                return promotionRepository.save(promotion);
+            }
         }
+
         return promotion;
     }
 
-    @Override
+
+
+
+  /*  @Override
     public Promotion addParticipantsToFormation(Long promotionId, List<Developer> developers) {
+        Optional<Promotion> optionalPromotion = promotionRepository.findById(promotionId);
 
-        Optional<Promotion> optFormation = promotionRepository.findById(promotionId);
+        if (optionalPromotion.isPresent()) {
+            Promotion promotion = optionalPromotion.get();
 
-        if (optFormation.isPresent()) {
-            Promotion promotion = optFormation.get();
-            developers.forEach(p -> promotion.getDevelopers().add(p));
+            for (Developer developer : developers) {
+                boolean developerExists = false;
+                for (Developer existingDeveloper : promotion.getDevelopers()) {
+                    if (existingDeveloper.getId() == developer.getId()) {
+                        developerExists = true;
+                        break;
+                    }
+                }
+
+                if (!developerExists) {
+                    promotion.getDevelopers().add(developer);
+                }
+            }
+
             return promotionRepository.save(promotion);
         } else {
-
             System.out.println("Promotion with id " + promotionId + " not found");
-            // You can return null or handle it differently based on your application logic
-            return null;
+            return null; // You can return null or handle it differently based on your application logic
+        }
+    }*/
+
+
+    @Override
+    public ResponseEntity<String> addListParticipantsToFormation(Long promotionId, List<Developer> developers) {
+        Optional<Promotion> optionalPromotion = promotionRepository.findById(promotionId);
+
+        if (optionalPromotion.isPresent()) {
+            Promotion promotion = optionalPromotion.get();
+
+            for (Developer developer : developers) {
+                boolean developerExists = false;
+                for (Developer existingDeveloper : promotion.getDevelopers()) {
+                    if (existingDeveloper.getId()== developer.getId()) {
+                        developerExists = true;
+                        break;
+                    }
+                }
+
+                if (!developerExists) {
+                    promotion.getDevelopers().add(developer);
+                }
+            }
+
+            promotionRepository.save(promotion);
+
+            // Return a success message as a response
+            return ResponseEntity.ok("Participants added successfully");
+        } else {
+            System.out.println("Promotion with id " + promotionId + " not found");
+            return ResponseEntity.notFound().build();
         }
     }
+
+
 
 
     @Transactional

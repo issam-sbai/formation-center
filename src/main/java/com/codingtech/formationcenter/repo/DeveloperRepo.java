@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface DeveloperRepo  extends JpaRepository<Developer,Integer> {
     List<Developer> findByNiveauOfSkillDevelopersSkillSkillName(String skillName);
+    Developer findByUsername(String username);
 }
