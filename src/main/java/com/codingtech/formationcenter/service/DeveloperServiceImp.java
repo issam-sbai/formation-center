@@ -8,7 +8,11 @@ import com.codingtech.formationcenter.security.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,15 +25,19 @@ public class DeveloperServiceImp implements DeveloperService {
     private final SocialNetworkService socialNetworkService;
     private final DevSocialNetworkService devSocialNetwork;
     private final SkillService skillService;
+
+    private final FileUpload fileUpload;
+
     private final NiveauOfSkillDeveloperService niveauOfSkillDeveloperService;
 
     @Autowired
-    public DeveloperServiceImp(DeveloperRepo developerRepository, ExperienceService experienceService, SocialNetworkService socialNetworkService, DevSocialNetworkService devSocialNetwork, SkillService skillService, NiveauOfSkillDeveloperService niveauOfSkillDeveloperService) {
+    public DeveloperServiceImp(DeveloperRepo developerRepository, ExperienceService experienceService, SocialNetworkService socialNetworkService, DevSocialNetworkService devSocialNetwork, SkillService skillService, FileUpload fileUpload, NiveauOfSkillDeveloperService niveauOfSkillDeveloperService) {
         this.developerRepository = developerRepository;
         this.experienceService = experienceService;
         this.socialNetworkService = socialNetworkService;
         this.devSocialNetwork = devSocialNetwork;
         this.skillService = skillService;
+        this.fileUpload = fileUpload;
         this.niveauOfSkillDeveloperService = niveauOfSkillDeveloperService;
     }
 
@@ -68,26 +76,23 @@ public class DeveloperServiceImp implements DeveloperService {
 
 
     @Override
-    public Developer updateDeveloper(int id, Developer developer) {
+    public Developer updateDeveloper(int id, Developer updatedDeveloper) {
         Optional<Developer> existingDeveloperOptional = developerRepository.findById(id);
 
         if (existingDeveloperOptional.isPresent()) {
             Developer existingDeveloper = existingDeveloperOptional.get();
+
             // Update the existing developer with the new values
-            existingDeveloper.setDescription(developer.getDescription());
-            existingDeveloper.setUrlCv(developer.getUrlCv());
-            if(developer.getNiveauOfSkillDevelopers().size() >0){
-
-                existingDeveloper.getNiveauOfSkillDevelopers().addAll(developer.getNiveauOfSkillDevelopers());
-            }
-
-
+            existingDeveloper.setNom(updatedDeveloper.getNom());
+            existingDeveloper.setPrenom(updatedDeveloper.getPrenom());
+            existingDeveloper.setUsername(updatedDeveloper.getUsername());
             // Update other properties as needed
 
+            // Save the updated developer
             return developerRepository.save(existingDeveloper);
         }
 
-        return null;
+        return null; // Return null if the developer with the given ID is not found
     }
     @Override
     public List<Developer> getDevelopersBySkill(String skillName) {
@@ -196,5 +201,22 @@ public class DeveloperServiceImp implements DeveloperService {
     }
 
 
+
+    @Override
+    public Developer updateDeveloperWithImage(Developer developer, MultipartFile imageFile) {
+        try {
+            System.out.println("2");
+            // Upload the image to Cloudinary and get the image URL or public ID
+            String imageUrl = fileUpload.uploadFile(imageFile);
+            // Set the image URL or public ID in the Developer entity
+            developer.setImagePublicId(imageUrl);
+
+            // Save the updated Developer entity
+            return developerRepository.save(developer);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

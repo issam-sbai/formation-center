@@ -29,7 +29,25 @@ public class User {
 	private String password;
 	private Date dateNaissance;
 	private String telephone;
-	private String image;
+
+	private String imagePublicId ;
+
+	public String getImagePublicId() {
+		return imagePublicId;
+	}
+
+	public void setImagePublicId(String imagePublicId) {
+		this.imagePublicId = imagePublicId;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "user_role",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> roles;
+
+
 
 	public Date getDateNaissance() {
 		return dateNaissance;
@@ -47,20 +65,8 @@ public class User {
 		this.telephone = telephone;
 	}
 
-	public String getImage() {
-		return image;
-	}
 
-	public void setImage(String image) {
-		this.image = image;
-	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-		    name = "user_role",
-		    joinColumns = @JoinColumn(name = "user_id"),
-		    inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private List<Role> roles;
 
 	public int getId() {
 		return id;

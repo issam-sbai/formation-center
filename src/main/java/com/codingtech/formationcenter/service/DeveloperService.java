@@ -5,6 +5,7 @@ import com.codingtech.formationcenter.dto.NiveauOfSkillRequest;
 import com.codingtech.formationcenter.entity.Developer;
 import com.codingtech.formationcenter.entity.Experience;
 import com.codingtech.formationcenter.entity.Promotion;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface DeveloperService {
     void updateDeveloperNetwork(DevSocialnetworkDto devSocialnetworkDto, int developerId);
 
     void updateDeveloperSkill(NiveauOfSkillRequest niveauOfSkillRequest, int developerId);
+
+    Developer updateDeveloperWithImage(Developer developer, MultipartFile imageFile);
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -67,6 +68,8 @@ public class DeveloperController {
         }
     }
 
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDeveloper(@PathVariable int id) {
         developerService.deleteDeveloper(id);
@@ -111,6 +114,34 @@ public class DeveloperController {
             developerService.updateDeveloperNetwork(devSocialnetworkDto,developerId);
         return ResponseEntity.ok("social network updated successfully");
     }
+
+
+    @PostMapping("/{developerId}/update")
+    public ResponseEntity<Developer> updateDeveloperWithImage(
+            @PathVariable int developerId,
+            @RequestParam("imageFile") MultipartFile imageFile
+
+    ) {
+        Developer developer = developerService.getDeveloperById(developerId);
+
+        if (developer == null) {
+            System.out.println("1");
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println("3");
+        Developer updatedDeveloper = developerService.updateDeveloperWithImage(developer, imageFile);
+
+        if (updatedDeveloper != null) {
+            return ResponseEntity.ok(updatedDeveloper);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+
+
 
 
 }
