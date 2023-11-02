@@ -23,6 +23,8 @@ public class FormateurServiceImpl implements FormateurService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailService emailService;
     @Override
     public List<Formateur> getAllFormateurs() {
         return formateurRepo.findAll();
@@ -36,11 +38,13 @@ public class FormateurServiceImpl implements FormateurService {
 
     @Override
     public Formateur createFormateur(Formateur formateur) {
+        emailService.sendUserRegistrationEmail(formateur.getUsername(), formateur.getPassword());
         String hashedPassword = passwordEncoder.encode(formateur.getPassword());
         List<Role> roles=new ArrayList<>();
         roles.add(new Role(1,"FORMATEUR"));
         formateur.setPassword(hashedPassword);
         formateur.setRoles(roles);
+
         return formateurRepo.save(formateur);
     }
 
